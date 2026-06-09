@@ -3,12 +3,22 @@
     <a routerLink="/" class="btn btn-ghost text-xl">CourseTracker</a>
   </div>
 
-  <div class="flex gap-2">
+  <div class="flex gap-2 items-center">
     <a routerLink="/" routerLinkActive="btn-primary" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-ghost">Home</a>
     <a routerLink="/contact" routerLinkActive="btn-primary" class="btn btn-ghost">Contact</a>
     <a routerLink="/disclaimer" routerLinkActive="btn-primary" class="btn btn-ghost">Disclaimer</a>
-    <a routerLink="/courses" routerLinkActive="btn-primary" class="btn btn-ghost">Courses</a>
-    <a routerLink="/login" routerLinkActive="btn-primary" class="btn btn-outline">Login</a>
-    <a routerLink="/register" routerLinkActive="btn-primary" class="btn btn-primary">Register</a>
+
+    @if (accountService.currentUser()) {
+      <a routerLink="/courses" routerLinkActive="btn-primary" class="btn btn-ghost">Courses</a>
+
+      <span class="text-sm">
+        Welcome, {{ accountService.currentUser()?.displayName }}
+      </span>
+
+      <button class="btn btn-outline" (click)="logout()">Logout</button>
+    } @else {
+      <a routerLink="/login" routerLinkActive="btn-primary" class="btn btn-outline">Login</a>
+      <a routerLink="/register" routerLinkActive="btn-primary" class="btn btn-primary">Register</a>
+    }
   </div>
 </div>
