@@ -1,14 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Navbar } from './shared/navbar/navbar';
+import { Toast } from './shared/toast/toast';
+import { Loading } from './shared/loading/loading';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Navbar, Toast, Loading],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-   
-  protected  title ='client';
-}
+export class App {}

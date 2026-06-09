@@ -1,0 +1,14 @@
+<div class="navbar bg-base-200 shadow-sm px-6">
+  <div class="flex-1">
+    <a routerLink="/" class="btn btn-ghost text-xl">CourseTracker</a>
+  </div>
+
+  <div class="flex gap-2">
+    <a routerLink="/" routerLinkActive="btn-primary" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-ghost">Home</a>
+    <a routerLink="/contact" routerLinkActive="btn-primary" class="btn btn-ghost">Contact</a>
+    <a routerLink="/disclaimer" routerLinkActive="btn-primary" class="btn btn-ghost">Disclaimer</a>
+    <a routerLink="/courses" routerLinkActive="btn-primary" class="btn btn-ghost">Courses</a>
+    <a routerLink="/login" routerLinkActive="btn-primary" class="btn btn-outline">Login</a>
+    <a routerLink="/register" routerLinkActive="btn-primary" class="btn btn-primary">Register</a>
+  </div>
+</div>
