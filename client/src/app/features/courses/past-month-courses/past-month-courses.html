@@ -51,7 +51,9 @@
                 </td>
                 <td>{{ course.date | date: 'mediumDate' }}</td>
                 <td class="text-right">
-                    <a [routerLink]="['/courses', course.id]" class="btn btn-sm btn-info">View</a>
+                    <a [routerLink]="['/courses', course.id]" class="btn btn-sm btn-info gap-2">
+                        👁 View
+                    </a>
                 </td>
             </tr>
             }

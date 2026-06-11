@@ -1,5 +1,10 @@
 <div class="card bg-base-100 shadow-xl max-w-md mx-auto">
   <div class="card-body">
+    <div class="flex justify-center mb-4">
+      <div class="w-14 h-14 rounded-full bg-purple-100 flex items-center justify-center text-2xl">
+        🔒
+      </div>
+    </div>
     <h2 class="card-title text-3xl justify-center">Login</h2>
 
     <form #loginForm="ngForm" (ngSubmit)="login()" class="space-y-4">
@@ -27,8 +32,10 @@
     </form>
 
     <p class="text-center mt-4">
-      No account?
-      <a routerLink="/register" class="link link-primary">Register here</a>
+      Don't have an account?
+      <a routerLink="/register" class="font-bold text-primary hover:underline">
+        Register here
+      </a>
     </p>
   </div>
 </div>

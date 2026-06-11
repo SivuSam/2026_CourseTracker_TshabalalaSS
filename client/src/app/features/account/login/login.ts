@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AccountService } from '../../../core/services/account.service';
@@ -9,7 +9,7 @@ import { AccountService } from '../../../core/services/account.service';
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
-export class Login {
+export class Login implements OnInit {
   private accountService = inject(AccountService);
   private router = inject(Router);
 
@@ -22,9 +22,21 @@ export class Login {
     this.accountService.login(this.model).subscribe({
       next: user => {
         this.accountService.setCurrentUser(user);
+
+        this.model = {
+          username: '',
+          password: ''
+        };
+
         this.router.navigateByUrl('/courses');
       },
       error: error => console.log(error)
     });
+  }
+  ngOnInit(): void {
+    this.model = {
+      username: '',
+      password: ''
+    };
   }
 }

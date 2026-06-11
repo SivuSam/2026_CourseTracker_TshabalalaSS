@@ -1,87 +1,96 @@
 <div class="flex justify-between items-center mb-6">
-    <div>
-        <h1 class="text-3xl font-bold">My Courses</h1>
-        <p class="text-base-content/70">View and manage your online courses.</p>
-    </div>
-    <div class="flex gap-2">
-        <a routerLink="/courses/past-month" class="btn btn-outline">Past Month</a>
-        <a routerLink="/courses/new" class="btn btn-primary">Add Course</a>
-    </div>
+  <div>
+    <h1 class="text-3xl font-bold">My Courses</h1>
+    <p class="text-base-content/70">View and manage your online courses.</p>
+  </div>
+
+  <div class="flex gap-2">
+    <a routerLink="/courses/past-month" class="btn btn-outline">Past Month</a>
+    <a routerLink="/courses/new" class="btn btn-primary">Add Course</a>
+  </div>
 </div>
 
 @if (courses().length === 0) {
-<div class="alert alert-info">
+  <div class="alert alert-info">
     <span>No courses found. Add your first course.</span>
-</div>
+  </div>
 } @else {
-<div class="overflow-x-auto bg-base-100 rounded-box shadow">
+  <div class="overflow-x-auto bg-base-100 rounded-box shadow">
     <table class="table table-zebra">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Platform</th>
-                <th>Topic</th>
-                <th>Status</th>
-                <th>Rating</th>
-                <th>Date</th>
-                <th class="text-right">Actions</th>
-            </tr>
-        </thead>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Platform</th>
+          <th>Topic</th>
+          <th>Status</th>
+          <th>Rating</th>
+          <th>Date</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
 
-        <tbody>
-            @for (course of pagedCourses(); track course.id) {
-            <tr>
-                <td class="font-semibold">{{ course.title }}</td>
-                <td>{{ course.platformName }}</td>
-                <td>{{ course.topicName }}</td>
-                <td>
-                    @if (course.isCompleted) {
-                    <span class="badge badge-success">Completed</span>
-                    } @else {
-                    <span class="badge badge-warning">In progress</span>
-                    }
-                </td>
-                <td>
-                    @if (course.rating) {
-                    {{ course.rating }} / 5
-                    } @else {
-                    Not rated
-                    }
-                </td>
-                <td>{{ course.date | date: 'mediumDate' }}</td>
-                <td class="text-right space-x-2">
-                    <a [routerLink]="['/courses', course.id]" class="btn btn-sm btn-info">View</a>
-                    <a [routerLink]="['/courses/edit', course.id]" class="btn btn-sm btn-warning">Edit</a>
+      <tbody>
+        @for (course of pagedCourses(); track course.id) {
+          <tr>
+            <td class="font-semibold">{{ course.title }}</td>
+            <td>{{ course.platformName }}</td>
+            <td>{{ course.topicName }}</td>
+            <td>
+              @if (course.isCompleted) {
+                <span class="badge badge-success">Completed</span>
+              } @else {
+                <span class="badge badge-warning">In progress</span>
+              }
+            </td>
+            <td>
+              @if (course.rating) {
+                {{ course.rating }} / 5
+              } @else {
+                Not rated
+              }
+            </td>
+            <td>{{ course.date | date: 'mediumDate' }}</td>
+            <td class="text-right space-x-2">
+              <a [routerLink]="['/courses', course.id]" class="btn btn-sm btn-info gap-2">
+                👁 View
+              </a>
 
-                    <button class="btn btn-sm btn-success" [disabled]="course.isCompleted"
-                        (click)="markCompleted(course)">
-                        Complete
-                    </button>
+              <a [routerLink]="['/courses/edit', course.id]" class="btn btn-sm btn-warning gap-2">
+                ✏️ Edit
+              </a>
 
-                    <button class="btn btn-sm btn-error" (click)="openDeleteModal(course.id)">
-                        Delete
-                    </button>
-                </td>
-            </tr>
-            }
-        </tbody>
+              <button
+                class="btn btn-sm btn-success gap-2"
+                [disabled]="course.isCompleted"
+                (click)="markCompleted(course)">
+                ✓ Complete
+              </button>
+
+              <button class="btn btn-sm btn-error gap-2" (click)="openDeleteModal(course.id)">
+                🗑 Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
     </table>
-</div>
+  </div>
 
-<div class="join mt-6 flex justify-center">
+  <div class="join mt-6 flex justify-center">
     <button class="join-item btn" (click)="previousPage()" [disabled]="pageNumber() === 1">
-        Previous
+      Previous
     </button>
 
     <button class="join-item btn">
-        Page {{ pageNumber() }} of {{ totalPages() }}
-    </button>''
+      Page {{ pageNumber() }} of {{ totalPages() }}
+    </button>
 
     <button class="join-item btn" (click)="nextPage()" [disabled]="pageNumber() === totalPages()">
-        Next
+      Next
     </button>
-</div>
+  </div>
 }
+
 <dialog id="delete_course_modal" class="modal">
   <div class="modal-box">
     <h3 class="font-bold text-lg">Delete course?</h3>
@@ -92,7 +101,7 @@
     <div class="modal-action">
       <form method="dialog" class="flex gap-2">
         <button class="btn btn-outline">Cancel</button>
-        <button class="btn btn-error" (click)="confirmDeleteCourse()">Delete</button>
+        <button class="btn btn-error" (click)="confirmDeleteCourse()">🗑 Delete</button>
       </form>
     </div>
   </div>
