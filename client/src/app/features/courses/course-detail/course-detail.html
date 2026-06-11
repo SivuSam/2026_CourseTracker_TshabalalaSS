@@ -1,1 +1,66 @@
-<p>course-detail works!</p>
+@if (course()) {
+  <div class="card bg-base-100 shadow-xl max-w-3xl mx-auto">
+    <div class="card-body">
+      <div class="flex justify-between items-start">
+        <div>
+          <h1 class="card-title text-3xl">{{ course()?.title }}</h1>
+          <p class="text-base-content/70">
+            Added or updated on {{ course()?.date | date: 'medium' }}
+          </p>
+        </div>
+
+        @if (course()?.isCompleted) {
+          <span class="badge badge-success">Completed</span>
+        } @else {
+          <span class="badge badge-warning">In progress</span>
+        }
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <p class="font-semibold">Platform</p>
+          <p>{{ course()?.platformName }}</p>
+        </div>
+
+        <div>
+          <p class="font-semibold">Topic</p>
+          <p>{{ course()?.topicName }}</p>
+        </div>
+
+        <div>
+          <p class="font-semibold">Rating</p>
+          <p>
+            @if (course()?.rating) {
+              {{ course()?.rating }} / 5
+            } @else {
+              Not rated
+            }
+          </p>
+        </div>
+
+        <div>
+          <p class="font-semibold">Status</p>
+          <p>{{ course()?.isCompleted ? 'Completed' : 'In progress' }}</p>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <p class="font-semibold">Notes</p>
+        <p class="whitespace-pre-line">
+          {{ course()?.notes || 'No notes added.' }}
+        </p>
+      </div>
+
+      <div class="card-actions justify-end mt-6">
+        <a routerLink="/courses" class="btn btn-outline">Back</a>
+        <a [routerLink]="['/courses/edit', course()?.id]" class="btn btn-primary">Edit</a>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="text-center">
+    <span class="loading loading-spinner loading-lg"></span>
+  </div>
+}

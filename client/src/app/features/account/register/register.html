@@ -3,41 +3,39 @@
     <h2 class="card-title text-3xl justify-center">Register</h2>
 
     <form #registerForm="ngForm" (ngSubmit)="register()" class="space-y-4">
-      <input
-        name="username"
-        [(ngModel)]="model.username"
-        type="text"
-        placeholder="Username"
-        class="input input-bordered w-full"
-        required
-      />
+      <input #username="ngModel" name="username" [(ngModel)]="model.username" type="text"
+        placeholder="Choose a unique username" class="input input-bordered w-full" required minlength="5" />
 
-      <input
-        name="displayName"
-        [(ngModel)]="model.displayName"
-        type="text"
-        placeholder="Display name"
-        class="input input-bordered w-full"
-        required
-      />
+      @if (username.invalid && username.touched) {
+      <div class="text-error text-sm">
+        Username must be at least 5 characters.
+      </div>
+      }
 
-      <input
-        name="email"
-        [(ngModel)]="model.email"
-        type="email"
-        placeholder="Email address"
-        class="input input-bordered w-full"
-        required
-      />
+      <input name="displayName" [(ngModel)]="model.displayName" type="text" placeholder="Enter your display name"
+        class="input input-bordered w-full" required />
+      <input #email="ngModel" name="email" [(ngModel)]="model.email" type="email"
+        placeholder="Enter a valid email address" class="input input-bordered w-full" required email />
 
-      <input
-        name="password"
-        [(ngModel)]="model.password"
-        type="password"
-        placeholder="Password"
-        class="input input-bordered w-full"
-        required
-      />
+      @if (email.invalid && email.touched) {
+      <div class="text-error text-sm">
+        Please enter a valid email address.
+      </div>
+      }
+
+      <input #password="ngModel" name="password" [(ngModel)]="model.password" type="password"
+        placeholder="Create a strong password" class="input input-bordered w-full" minlength="8" required />
+
+      <div class="alert alert-info mt-2 py-2">
+        <span class="text-xs">
+          Password must contain:
+          • 8+ characters
+          • Uppercase letter
+          • Lowercase letter
+          • Number
+          • Special character
+        </span>
+      </div>
 
       <button class="btn btn-primary w-full" [disabled]="!registerForm.valid">
         Register

@@ -1,1 +1,93 @@
-<p>course-form works!</p>
+<div class="card bg-base-100 shadow-xl max-w-2xl mx-auto">
+  <div class="card-body">
+    <h1 class="card-title text-3xl justify-center">
+      {{ isEditMode ? 'Edit Course' : 'Add Course' }}
+    </h1>
+
+    <form #courseForm="ngForm" (ngSubmit)="saveCourse()" class="space-y-4">
+      <input #title="ngModel" 
+      name="title" [(ngModel)]="model.title" 
+      type="text"
+      placeholder="Course title" 
+      class="input input-bordered w-full" 
+      required />
+
+      @if (title.invalid && title.touched) {
+      <div class="text-error text-sm mt-1">
+        Course title is required.
+      </div>
+      }
+
+      <select
+        name="platformId"
+        [(ngModel)]="model.platformId"
+        class="select select-bordered w-full"
+        required
+      >
+        <option [ngValue]="0" disabled>Select platform</option>
+
+        @for (platform of platforms(); track platform.id) {
+          <option [ngValue]="platform.id">{{ platform.name }}</option>
+        }
+      </select>
+
+      <select
+        name="topicId"
+        [(ngModel)]="model.topicId"
+        class="select select-bordered w-full"
+        required
+      >
+        <option [ngValue]="0" disabled>Select topic</option>
+
+        @for (topic of topics(); track topic.id) {
+          <option [ngValue]="topic.id">{{ topic.name }}</option>
+        }
+      </select>
+
+      <select
+        name="rating"
+        [(ngModel)]="model.rating"
+        class="select select-bordered w-full"
+      >
+        <option [ngValue]="null">No rating</option>
+        <option [ngValue]="1">1 star</option>
+        <option [ngValue]="2">2 stars</option>
+        <option [ngValue]="3">3 stars</option>
+        <option [ngValue]="4">4 stars</option>
+        <option [ngValue]="5">5 stars</option>
+      </select>
+
+      <label class="label cursor-pointer justify-start gap-4">
+        <input
+          name="isCompleted"
+          [(ngModel)]="model.isCompleted"
+          type="checkbox"
+          class="checkbox checkbox-primary"
+        />
+        <span class="label-text">Completed</span>
+      </label>
+
+      <textarea
+        name="notes"
+        [(ngModel)]="model.notes"
+        class="textarea textarea-bordered w-full"
+        rows="5"
+        placeholder="Add your personal notes, progress or observations about this course"
+      ></textarea>
+
+      <div class="card-actions justify-end">
+        <button type="button" class="btn btn-outline" routerLink="/courses">
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!courseForm.valid || model.platformId === 0 || model.topicId === 0"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

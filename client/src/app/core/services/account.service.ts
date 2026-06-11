@@ -9,6 +9,8 @@ import { User } from '../models/user';
 })
 export class AccountService {
   private baseUrl = environment.apiUrl;
+  private refreshTimer?: ReturnType<typeof setTimeout>;
+
   currentUser = signal<User | null>(null);
 
   constructor(private http: HttpClient, private router: Router) {
@@ -16,6 +18,7 @@ export class AccountService {
 
     if (user) {
       this.currentUser.set(JSON.parse(user));
+      this.startRefreshTokenTimer();
     }
   }
 
@@ -42,7 +45,15 @@ export class AccountService {
     });
   }
 
+  setCurrentUser(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.currentUser.set(user);
+    this.startRefreshTokenTimer();
+  }
+
   logout() {
+    this.stopRefreshTokenTimer();
+
     return this.http.post(this.baseUrl + 'account/logout', {}, {
       withCredentials: true
     }).subscribe({
@@ -59,8 +70,20 @@ export class AccountService {
     });
   }
 
-  setCurrentUser(user: User) {
-    localStorage.setItem('user', JSON.stringify(user));
-    this.currentUser.set(user);
+  startRefreshTokenTimer() {
+    this.stopRefreshTokenTimer();
+
+    this.refreshTimer = setTimeout(() => {
+      this.refreshToken().subscribe({
+        next: user => this.setCurrentUser(user),
+        error: () => this.logout()
+      });
+    }, 7 * 24 * 60 * 60 * 1000);
+  }
+
+  stopRefreshTokenTimer() {
+    if (this.refreshTimer) {
+      clearTimeout(this.refreshTimer);
+    }
   }
 }

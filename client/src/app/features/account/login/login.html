@@ -3,23 +3,23 @@
     <h2 class="card-title text-3xl justify-center">Login</h2>
 
     <form #loginForm="ngForm" (ngSubmit)="login()" class="space-y-4">
-      <input
-        name="username"
-        [(ngModel)]="model.username"
-        type="text"
-        placeholder="Username"
-        class="input input-bordered w-full"
-        required
-      />
+      <input #username="ngModel" name="username" [(ngModel)]="model.username" type="text" placeholder="Enter username"
+        class="input input-bordered w-full" required />
 
-      <input
-        name="password"
-        [(ngModel)]="model.password"
-        type="password"
-        placeholder="Password"
-        class="input input-bordered w-full"
-        required
-      />
+      @if (username.invalid && username.touched) {
+      <div class="text-error text-sm">
+        Username is required.
+      </div>
+      }
+
+      <input #password="ngModel" name="password" [(ngModel)]="model.password" type="password"
+        placeholder="Enter password" class="input input-bordered w-full" required />
+
+      @if (password.invalid && password.touched) {
+      <div class="text-error text-sm">
+        Password is required.
+      </div>
+      }
 
       <button class="btn btn-primary w-full" [disabled]="!loginForm.valid">
         Login
