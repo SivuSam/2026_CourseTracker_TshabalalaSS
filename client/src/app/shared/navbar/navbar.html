@@ -1,66 +1,41 @@
-<div class="navbar bg-[#29235c] text-white shadow-lg px-8 py-4">
+<div class="navbar bg-[#29235c] text-white shadow-lg">
   <div class="flex-1">
     <a routerLink="/" class="text-3xl font-bold text-white">
       CourseTracker
     </a>
   </div>
 
-  <div class="flex gap-6 items-center">
+  <div class="flex gap-4 items-center">
 
-    <a
-      routerLink="/"
-      routerLinkActive="!text-green-400 !border-green-400"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="text-lg font-medium text-white hover:text-green-400! border-b-2 border-transparent pb-1 transition-all duration-200"
-    >
-      Home
-    </a>
-
-    <a
-      routerLink="/contact"
-      routerLinkActive="!text-green-400 !border-green-400"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="text-lg font-medium text-white hover:text-green-400! border-b-2 border-transparent pb-1 transition-all duration-200"
-    >
-      Contact
-    </a>
-
-    <a
-      routerLink="/disclaimer"
-      routerLinkActive="!text-green-400 !border-green-400"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="text-lg font-medium text-white hover:text-green-400! border-b-2 border-transparent pb-1 transition-all duration-200"
-    >
-      Disclaimer
-    </a>
-
-    @if (accountService.currentUser()) {
+    @if (!accountService.currentUser()) {
 
       <a
-        routerLink="/courses"
-        routerLinkActive="!text-green-400 !border-green-400"
-        class="text-lg font-medium text-white hover:text-green-400! border-b-2 border-transparent pb-1 transition-all duration-200"
+        routerLink="/"
+        routerLinkActive="text-green-400 border-b-2 border-green-400"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="text-lg font-medium text-white hover:text-green-400 transition duration-200 pb-1"
       >
-        Courses
+        Home
       </a>
 
-      <span class="text-base font-medium text-green-300">
-        Welcome, {{ accountService.currentUser()?.displayName }}
-      </span>
-
-      <button
-        class="btn btn-outline border-white text-white hover:bg-white hover:text-[#29235c]"
-        (click)="logout()"
+      <a
+        routerLink="/contact"
+        routerLinkActive="text-green-400 border-b-2 border-green-400"
+        class="text-lg font-medium text-white hover:text-green-400 transition duration-200 pb-1"
       >
-        Logout
-      </button>
+        Contact
+      </a>
 
-    } @else {
+      <a
+        routerLink="/disclaimer"
+        routerLinkActive="text-green-400 border-b-2 border-green-400"
+        class="text-lg font-medium text-white hover:text-green-400 transition duration-200 pb-1"
+      >
+        Disclaimer
+      </a>
 
       <a
         routerLink="/login"
-        routerLinkActive="!text-green-400 !border-green-400"
-        [routerLinkActiveOptions]="{ exact: true }"
         class="btn btn-outline border-white text-white hover:bg-white hover:text-[#29235c]"
       >
         Login
@@ -68,12 +43,32 @@
 
       <a
         routerLink="/register"
-        routerLinkActive="!text-green-400 !border-green-400"
-        [routerLinkActiveOptions]="{ exact: true }"
         class="btn bg-white text-[#29235c] border-none hover:bg-purple-100"
       >
         Register
       </a>
+
+    }
+
+    @if (accountService.currentUser()) {
+
+      <a
+        routerLink="/courses"
+        routerLinkActive="text-green-400 border-b-2 border-green-400"
+        class="text-lg font-medium text-white hover:text-green-400 transition duration-200 pb-1"
+      >
+        Courses
+      </a>
+
+      <span class="text-base font-medium">
+        Welcome, {{ accountService.currentUser()?.displayName }}
+      </span>
+
+      <button
+        class="btn btn-outline btn-primary"
+        (click)="logout()">
+        Logout
+      </button>
 
     }
 
