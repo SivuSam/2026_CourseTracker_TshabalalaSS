@@ -8,7 +8,11 @@ public static class Seed
 {
     public static async Task SeedUsersAndCourses(UserManager<AppUser> userManager, AppDbContext context)
     {
-        if (await userManager.Users.AnyAsync()) return;
+        if (await userManager.Users.AnyAsync(x => x.UserName == "student1") &&
+            await userManager.Users.AnyAsync(x => x.UserName == "student2"))
+        {
+            return;
+        }
 
         var users = new List<AppUser>
         {
@@ -28,8 +32,18 @@ public static class Seed
 
         foreach (var user in users)
         {
-            await userManager.CreateAsync(user, "Password1!");
+            if (!await userManager.Users.AnyAsync(x => x.UserName == user.UserName))
+            {
+                var result = await userManager.CreateAsync(user, "Password1!");
+
+                if (!result.Succeeded)
+                {
+                    throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+                }
+            }
         }
+
+        if (await context.Courses.AnyAsync()) return;
 
         context.Courses.AddRange(
             new Course
